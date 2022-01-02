@@ -1,0 +1,181 @@
+global function Backwards_Init
+
+void function Backwards_Init() {
+    #if SERVER
+        AddCallback_OnPlayerRespawned( InvertPlayerLoadout )
+        AddCallback_OnPlayerGetsNewPilotLoadout( InvertPlayerLoadoutOnLoadoutChange )
+        AddCallback_OnPilotBecomesTitan( InvertTitanLoadout )
+    #endif
+}
+
+bool function InvertedTitansEnabled() {
+    return GetCurrentPlaylistVarInt("inverted_titans", 0) == 1
+}
+
+bool function InvertedPilotLoadoutsEnabled() {
+    return GetCurrentPlaylistVarInt("inverted_pilot_loadouts", 0) == 1
+}
+
+bool function InvertedPilotAbilitiesEnabled() {
+    return GetCurrentPlaylistVarInt("inverted_pilot_abilities", 0) == 1
+}
+
+// Thank you cpone :D
+
+array<string> pilotWeapons = [
+    "mp_weapon_alternator_smg",
+    "mp_weapon_arc_launcher",
+    "mp_weapon_autopistol",
+    "mp_weapon_car",
+    "mp_weapon_defender",
+    "mp_weapon_dmr",
+    "mp_weapon_doubletake",
+    "mp_weapon_epg",
+    "mp_weapon_esaw",
+    "mp_weapon_g2",
+    "mp_weapon_hemlok",
+    "mp_weapon_hemlok_smg",
+    "mp_weapon_lmg",
+    "mp_weapon_lstar",
+    "mp_weapon_mastiff",
+    "mp_weapon_mgl",
+    "mp_weapon_pulse_lmg",
+    "mp_weapon_r97",
+    "mp_weapon_rocket_launcher",
+    "mp_weapon_rspn101",
+    "mp_weapon_rspn101_og",
+    "mp_weapon_semipistol",
+    "mp_weapon_shotgun",
+    "mp_weapon_shotgun_pistol",
+    "mp_weapon_smart_pistol",
+    "mp_weapon_smr",
+    "mp_weapon_sniper",
+    "mp_weapon_softball",
+    "mp_weapon_vinson",
+    "mp_weapon_wingman",
+    "mp_weapon_wingman_n"
+]
+array<string> titanWeapons = [
+    "mp_titanweapon_leadwall",
+    "mp_titanweapon_meteor",
+    "mp_titanweapon_particle_accelerator",
+    "mp_titanweapon_predator_cannon",
+    "mp_titanweapon_rocketeer_rocketstream",
+    "mp_titanweapon_sniper",
+    "mp_titanweapon_sticky_40mm",
+    "mp_titanweapon_xo16_shorty",
+    "mp_titanweapon_xo16_vanguard"
+]
+array<string> pilotOffhands = [
+    "mp_ability_cloak",
+    "mp_ability_grapple",
+    "mp_ability_heal",
+    "mp_ability_holopilot",
+    "mp_ability_shifter",
+    "mp_weapon_deployable_cover",
+    "mp_weapon_frag_drone",
+    "mp_weapon_frag_grenade",
+    "mp_weapon_grenade_electric_smoke",
+    "mp_weapon_grenade_emp",
+    "mp_weapon_grenade_gravity",
+    "mp_weapon_grenade_sonar",
+    "mp_weapon_satchel",
+    "mp_weapon_thermite_grenade"
+]
+array<string> titanOffhands = [
+    "mp_titanability_hover",
+    "mp_titanweapon_arc_wave",
+    "mp_titanweapon_flame_wall",
+    "mp_titanweapon_dumbfire_rockets",
+    "mp_titanweapon_salvo_rockets",
+    "mp_titanweapon_stun_laser"
+]
+array<string> titanDefenses = [
+    "mp_titanability_basic_block",
+    "mp_titanability_particle_wall",
+    "mp_titanweapon_heat_shield",
+    "mp_titanweapon_vortex_shield"
+]
+array<string> titanTacticals = [
+    "mp_titanability_phase_dash",
+    "mp_titanability_slow_trap",
+    "mp_titanability_smoke",
+    "mp_titanability_sonar_pulse",
+    "mp_titanability_tether_trap",
+    "mp_titanability_rearm"
+]
+array<string> pilotMelees = [
+    "melee_pilot_emptyhanded",
+    "melee_pilot_arena",
+    "melee_pilot_sword",
+    "melee_pilot_kunai"
+]
+array<string> titanMelees = [
+    "melee_titan_punch_ion",
+    "melee_titan_punch_legion",
+    "melee_titan_punch_northstar",
+    "melee_titan_punch_scorch",
+    "melee_titan_punch_tone",
+    "melee_titan_punch_vanguard",
+    "melee_titan_sword"
+]
+ 
+string xo16 = "mp_weapon_alternator_smg mp_weapon_autopistol mp_weapon_car mp_weapon_hemlok mp_weapon_r97 mp_weapon_rspn101 mp_weapon_rspn101_og mp_weapon_semipistol mp_weapon_vinson"
+string leadwall = "mp_weapon_mastiff mp_weapon_shotgun mp_weapon_shotgun_pistol"
+string meteor = "mp_weapon_epg mp_weapon_mgl mp_weapon_softball"
+string particleaccelerator = " mp_weapon_hemlok_smg mp_weapon_lstar mp_weapon_pulse_lmg mp_weapon_smr"
+string predcannon = "mp_weapon_esaw mp_weapon_lmg" 
+string sniper = "mp_weapon_defender mp_weapon_doubletake mp_weapon_rocket_launcher mp_weapon_sniper"
+string 40mm = "mp_weapon_arc_launcher mp_weapon_dmr mp_weapon_g2 mp_weapon_wingman mp_weapon_wingman_n"
+
+#if SERVER
+    void function InvertPlayerLoadout( entity player ) {
+        if ( InvertedPilotLoadoutsEnabled() )
+            foreach ( entity weapon in player.GetMainWeapons() )
+            {
+                if ( xo16.contains( weapon.GetWeaponClassName() ) )
+                {
+                    player.TakeWeaponNow( weapon.GetWeaponClassName() )
+                    player.GiveWeapon( "mp_titanweapon_xo16_vanguard" )
+                }
+                else if ( xo16.contains( weapon.GetWeaponClassName() ) )
+                {
+                    player.TakeWeaponNow( weapon.GetWeaponClassName() )
+                    player.GiveWeapon( "mp_titanweapon_leadwall" )
+                }
+                else if ( meteor.contains( weapon.GetWeaponClassName() ) )
+                {
+                    player.TakeWeaponNow( weapon.GetWeaponClassName() )
+                    player.GiveWeapon( "mp_titanweapon_meteor" )
+                }
+                else if ( particleaccelerator.contains( weapon.GetWeaponClassName() ) )
+                {
+                    player.TakeWeaponNow( weapon.GetWeaponClassName() )
+                    player.GiveWeapon( "mp_titanweapon_particle_accelerator" )
+                }
+                else if ( predcannon.contains( weapon.GetWeaponClassName() ) )
+                {
+                    player.TakeWeaponNow( weapon.GetWeaponClassName() )
+                    player.GiveWeapon( "mp_titanweapon_predator_cannon" )
+                }
+                else if ( sniper.contains( weapon.GetWeaponClassName() ) )
+                {
+                    player.TakeWeaponNow( weapon.GetWeaponClassName() )
+                    player.GiveWeapon( "mp_titanweapon_sniper" )
+                }
+                else
+                {
+                    player.TakeWeaponNow( weapon.GetWeaponClassName() )
+                    player.GiveWeapon( "mp_titanweapon_sticky_40mm" )
+                }
+            }
+
+        SendHudMessage( player, ":D", -1, 0.4, 255, 255, 255, 255, 0.15, 3.0, 0.5 )
+    }
+
+    void function InvertPlayerLoadoutOnLoadoutChange(entity player, PilotLoadoutDef loadout ) {
+        InvertPlayerLoadout( player )
+    }
+
+
+#endif

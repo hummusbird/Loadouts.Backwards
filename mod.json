@@ -1,0 +1,20 @@
+{
+	"Name": "Loadouts.Backwards",
+	"Description": "Titan with a CAR.",
+	"LoadPriority": 2,
+	"RequiredOnClient": false,
+	"Version": "1.0",
+	
+	"Scripts": [
+		{
+			"Path": "backwards.gnut",
+			"RunOn": "MP",
+			"ClientCallback": {
+				"After": "Backwards_Init"
+			},
+            "ServerCallback": {
+                "After": "Backwards_Init"
+            }
+		}
+	]
+}
