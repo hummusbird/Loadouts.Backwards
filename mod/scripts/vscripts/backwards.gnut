@@ -105,7 +105,7 @@ array<string> sticky = ["mp_titanweapon_sticky_40mm","mp_weapon_arc_launcher","m
                     // RONIN
                     case "mp_titanability_basic_block":
                         player.TakeOffhandWeapon(i)
-                        player.GiveOffhandWeapon( "mp_weapon_heal", OFFHAND_SPECIAL )
+                        player.GiveOffhandWeapon( "mp_ability_heal", OFFHAND_SPECIAL )
                         break;
 
                     case "mp_titanweapon_arc_wave":
@@ -118,7 +118,7 @@ array<string> sticky = ["mp_titanweapon_sticky_40mm","mp_weapon_arc_launcher","m
                         player.GiveOffhandWeapon( "mp_ability_shifter", OFFHAND_ANTIRODEO )
                         break;
 
-                    case "mp_titan_sword":
+                    case "melee_titan_sword":
                         player.TakeOffhandWeapon(i)
                         player.GiveOffhandWeapon( "melee_pilot_sword", OFFHAND_MELEE )
                         break;
@@ -165,12 +165,11 @@ array<string> sticky = ["mp_titanweapon_sticky_40mm","mp_weapon_arc_launcher","m
                         player.TakeOffhandWeapon(i)
                         player.GiveOffhandWeapon( "mp_ability_holopilot", OFFHAND_ANTIRODEO )
                         break;
-
-                    case "mp_titanweapon_shoulder_rockets":
+        
+                    case "mp_titanweapon_salvo_rockets":
                         player.TakeOffhandWeapon(i)
                         player.GiveOffhandWeapon( "mp_ability_heal", OFFHAND_ORDNANCE )
                         break;
-        
                 }
             }
 
@@ -258,14 +257,14 @@ array<string> sticky = ["mp_titanweapon_sticky_40mm","mp_weapon_arc_launcher","m
                 player.TakeOffhandWeapon(0)
                 player.TakeOffhandWeapon(1)
                 player.GiveOffhandWeapon( "mp_titanability_gun_shield", OFFHAND_SPECIAL )
-                player.GiveOffhandWeapon( "mp_titanability_ammo_swap", OFFHAND_ORDNANCE )
+                player.GiveOffhandWeapon( "mp_titanweapon_salvo_rockets", OFFHAND_ORDNANCE )
             }
             else if ( sniper.contains( weapon.GetWeaponClassName() ) )
             {
                 player.TakeOffhandWeapon(0)
                 player.TakeOffhandWeapon(1)
                 player.GiveOffhandWeapon( "mp_titanweapon_dumbfire_rockets", OFFHAND_SPECIAL )
-                player.GiveOffhandWeapon( "mp_titanability_tether_trap", OFFHAND_ORDNANCE )
+                player.GiveOffhandWeapon( "mp_titanability_hover", OFFHAND_ORDNANCE )
             }
             else if ( sticky.contains (weapon.GetWeaponClassName() ) )
             {
