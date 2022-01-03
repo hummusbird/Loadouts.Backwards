@@ -13,6 +13,10 @@ void function Backwards_Init() {
     #endif
 }
 
+bool function BigShotgunsEnabled() {
+    return GetCurrentPlaylistVarInt("big_shotgun_snipers", 0) == 1
+}
+
 bool function InvertedTitansEnabled() {
     return GetCurrentPlaylistVarInt("inverted_titans", 0) == 1
 }
@@ -275,7 +279,21 @@ array<string> sticky = ["mp_titanweapon_sticky_40mm","mp_weapon_arc_launcher","m
             }
         }
 
-        if ( InvertedPilotLoadoutsEnabled() )
+        if ( BigShotgunsEnabled() )
+        {
+            array<string> guns = [ "mp_titanweapon_leadwall", "mp_titanweapon_sniper", "mp_titanweapon_sniper" ]
+            for ( int i = 0; i < 3; i++ )
+            {
+                player.TakeWeaponNow( player.GetMainWeapons()[i].GetWeaponClassName() )
+                player.GiveWeapon( guns[i] )
+
+                player.TakeOffhandWeapon(5)
+                player.GiveOffhandWeapon( "melee_titan_sword", OFFHAND_MELEE )
+            }
+            SendHudMessage( player, "big mastiff", -1, 0.4, 255, 255, 255, 255, 0.15, 3.0, 0.5 )
+        }
+
+        else if ( InvertedPilotLoadoutsEnabled() )
         {
             bool loadout = false
 
