@@ -1,6 +1,12 @@
 global function Backwards_Init
 
 void function Backwards_Init() {
+    PrecacheModel( $"models/titans/buddy/titan_buddy.mdl" )
+	PrecacheModel( $"models/weapons/arms/buddypov.mdl" )
+	PrecacheParticleSystem( $"P_BT_eye_SM" )
+
+
+
     #if SERVER
         AddCallback_OnPlayerRespawned( InvertPlayerLoadout )
         AddCallback_OnPlayerGetsNewPilotLoadout( InvertPlayerLoadoutOnLoadoutChange )
@@ -83,6 +89,8 @@ array<string> pilotOffhands = [
     "mp_weapon_thermite_grenade"
 ]
 array<string> titanOffhands = [
+
+    "mp_titanweapon_laser_lite",
     "mp_titanability_hover",
     "mp_titanweapon_arc_wave",
     "mp_titanweapon_flame_wall",
@@ -119,62 +127,134 @@ array<string> titanMelees = [
     "melee_titan_punch_vanguard",
     "melee_titan_sword"
 ]
- 
-array<string> xo16 = ["mp_weapon_alternator_smg","mp_weapon_autopistol","mp_weapon_car","mp_weapon_hemlok","mp_weapon_r97","mp_weapon_rspn101","mp_weapon_rspn101_og","mp_weapon_semipistol","mp_weapon_vinson"]
-array<string> leadwall = ["mp_weapon_mastiff","mp_weapon_shotgun","mp_weapon_shotgun_pistol"]
-array<string> meteor = ["mp_weapon_epg","mp_weapon_mgl","mp_weapon_softball"]
-array<string> particleaccelerator = [" mp_weapon_hemlok_smg","mp_weapon_lstar","mp_weapon_pulse_lmg","mp_weapon_smr"]
-array<string> predcannon = ["mp_weapon_esaw","mp_weapon_lmg" ]
-array<string> sniper = ["mp_weapon_defender","mp_weapon_doubletake","mp_weapon_rocket_launcher","mp_weapon_sniper"]
-array<string> sticky = ["mp_weapon_arc_launcher","mp_weapon_dmr","mp_weapon_g2","mp_weapon_wingman","mp_weapon_wingman_n"]
+
+array<string> xo16 = ["mp_titanweapon_xo16_vanguard","mp_weapon_alternator_smg","mp_weapon_autopistol","mp_weapon_car","mp_weapon_hemlok","mp_weapon_r97","mp_weapon_rspn101","mp_weapon_rspn101_og","mp_weapon_semipistol","mp_weapon_vinson"]
+array<string> leadwall = ["mp_titanweapon_leadwall","mp_weapon_mastiff","mp_weapon_shotgun","mp_weapon_shotgun_pistol"]
+array<string> meteor = ["mp_titanweapon_meteor","mp_weapon_epg","mp_weapon_mgl","mp_weapon_softball"]
+array<string> particleaccelerator = ["mp_titanweapon_particle_accelerator","mp_weapon_hemlok_smg","mp_weapon_lstar","mp_weapon_pulse_lmg","mp_weapon_smr"]
+array<string> predcannon = ["mp_titanweapon_predator_cannon","mp_weapon_esaw","mp_weapon_lmg" ]
+array<string> sniper = ["mp_titanweapon_sniper","mp_weapon_defender","mp_weapon_doubletake","mp_weapon_rocket_launcher","mp_weapon_sniper"]
+array<string> sticky = ["mp_titanweapon_sticky_40mm","mp_weapon_arc_launcher","mp_weapon_dmr","mp_weapon_g2","mp_weapon_wingman","mp_weapon_wingman_n"]
 
 #if SERVER
     void function InvertPlayerLoadout( entity player ) {
-        if ( InvertedPilotAbilitiesEnabled() )
 
-            player.GiveOffhandWeapon( "mp_titanweapon_salvo_rockets", OFFHAND_SPECIAL )
+        if ( InvertedPilotAbilitiesEnabled() )
+        {
+            array<entity> weapons = player.GetMainWeapons()
+            entity weapon = weapons[0]
+            array<entity> offhand = player.GetOffhandWeapons()
+
+            if ( xo16.contains( weapon.GetWeaponClassName() ) )
+            {
+                player.TakeOffhandWeapon(0)
+                player.TakeOffhandWeapon(1)
+                player.GiveOffhandWeapon( "mp_titanweapon_salvo_rockets", OFFHAND_SPECIAL )
+                player.GiveOffhandWeapon( "mp_titanweapon_stun_laser", OFFHAND_ORDNANCE )
+            }
+            else if ( leadwall.contains( weapon.GetWeaponClassName() ) )
+            {
+                player.TakeOffhandWeapon(0)
+                player.TakeOffhandWeapon(1)
+                player.GiveOffhandWeapon( "mp_titanweapon_arc_wave", OFFHAND_SPECIAL )
+                player.GiveOffhandWeapon( "mp_titanability_basic_block", OFFHAND_ORDNANCE )
+            }
+            else if ( meteor.contains( weapon.GetWeaponClassName() ) )
+            {
+                player.TakeOffhandWeapon(0)
+                player.TakeOffhandWeapon(1)
+                player.GiveOffhandWeapon( "mp_titanweapon_flame_wall", OFFHAND_SPECIAL )
+                player.GiveOffhandWeapon( "mp_titanweapon_heat_shield", OFFHAND_ORDNANCE )
+            }
+            else if ( particleaccelerator.contains( weapon.GetWeaponClassName() ) )
+            {
+                player.TakeOffhandWeapon(0)
+                player.TakeOffhandWeapon(1)
+                player.GiveOffhandWeapon( "mp_titanability_laser_trip", OFFHAND_SPECIAL )
+                player.GiveOffhandWeapon( "mp_titanweapon_vortex_shield", OFFHAND_ORDNANCE )
+            }
+            else if ( predcannon.contains( weapon.GetWeaponClassName() ) )
+            {
+                player.TakeOffhandWeapon(0)
+                player.TakeOffhandWeapon(1)
+                player.GiveOffhandWeapon( "mp_titanability_gun_shield", OFFHAND_SPECIAL )
+                player.GiveOffhandWeapon( "mp_titanability_ammo_swap", OFFHAND_ORDNANCE )
+            }
+            else if ( sniper.contains( weapon.GetWeaponClassName() ) )
+            {
+                player.TakeOffhandWeapon(0)
+                player.TakeOffhandWeapon(1)
+                player.GiveOffhandWeapon( "mp_titanweapon_dumbfire_rockets", OFFHAND_SPECIAL )
+                player.GiveOffhandWeapon( "mp_titanability_tether_trap", OFFHAND_ORDNANCE )
+            }
+            else if ( sticky.contains (weapon.GetWeaponClassName() ) )
+            {
+                player.TakeOffhandWeapon(0)
+                player.TakeOffhandWeapon(1)
+                player.GiveOffhandWeapon( "mp_titanweapon_salvo_rockets", OFFHAND_SPECIAL )
+                player.GiveOffhandWeapon( "mp_titanability_particle_wall", OFFHAND_ORDNANCE )
+            }
+        }
 
         if ( InvertedPilotLoadoutsEnabled() )
+        {
+            bool loadout = false
+
             foreach ( entity weapon in player.GetMainWeapons() )
             {
-                if ( xo16.contains( weapon.GetWeaponClassName() ) )
+                if ( xo16.contains( weapon.GetWeaponClassName() ) && !loadout )
                 {
                     player.TakeWeaponNow( weapon.GetWeaponClassName() )
                     player.GiveWeapon( "mp_titanweapon_xo16_vanguard" )
+                    loadout = true
                 }
-                else if ( xo16.contains( weapon.GetWeaponClassName() ) )
+                else if ( leadwall.contains( weapon.GetWeaponClassName() ) && !loadout )
                 {
                     player.TakeWeaponNow( weapon.GetWeaponClassName() )
                     player.GiveWeapon( "mp_titanweapon_leadwall" )
+                    player.TakeOffhandWeapon(5)
+                    player.GiveOffhandWeapon( "melee_titan_sword", OFFHAND_MELEE )
+                    loadout = true
                 }
-                else if ( meteor.contains( weapon.GetWeaponClassName() ) )
+                else if ( meteor.contains( weapon.GetWeaponClassName() ) && !loadout )
                 {
                     player.TakeWeaponNow( weapon.GetWeaponClassName() )
                     player.GiveWeapon( "mp_titanweapon_meteor" )
+                    loadout = true
                 }
-                else if ( particleaccelerator.contains( weapon.GetWeaponClassName() ) )
+                else if ( particleaccelerator.contains( weapon.GetWeaponClassName() ) && !loadout )
                 {
                     player.TakeWeaponNow( weapon.GetWeaponClassName() )
                     player.GiveWeapon( "mp_titanweapon_particle_accelerator" )
+                    loadout = true
                 }
-                else if ( predcannon.contains( weapon.GetWeaponClassName() ) )
+                else if ( predcannon.contains( weapon.GetWeaponClassName() ) && !loadout )
                 {
                     player.TakeWeaponNow( weapon.GetWeaponClassName() )
                     player.GiveWeapon( "mp_titanweapon_predator_cannon" )
+                    loadout = true
                 }
-                else if ( sniper.contains( weapon.GetWeaponClassName() ) )
+                else if ( sniper.contains( weapon.GetWeaponClassName() ) && !loadout )
                 {
                     player.TakeWeaponNow( weapon.GetWeaponClassName() )
                     player.GiveWeapon( "mp_titanweapon_sniper" )
+                    loadout = true
                 }
-                else
+                else if ( sticky.contains ( weapon.GetWeaponClassName() ) && !loadout )
                 {
                     player.TakeWeaponNow( weapon.GetWeaponClassName() )
                     player.GiveWeapon( "mp_titanweapon_sticky_40mm" )
+                    loadout = true
                 }
-                
             }
+
+            for (int i = 1; i < player.GetMainWeapons().len(); i++)
+            {
+                player.TakeWeaponNow( player.GetMainWeapons()[i].GetWeaponClassName() )
+            }
+
             SendHudMessage( player, "Titan loadout equipped!", -1, 0.4, 255, 255, 255, 255, 0.15, 3.0, 0.5 )
+        }
     }
 
     void function InvertPlayerLoadoutOnLoadoutChange(entity player, PilotLoadoutDef loadout ) {
