@@ -343,7 +343,6 @@ array<string> sticky = ["mp_titanweapon_sticky_40mm","mp_weapon_arc_launcher","m
                 {
                     player.TakeWeaponNow( weapon.GetWeaponClassName() )
                     player.GiveWeapon( "mp_titanweapon_rocketeer_rocketstream" )
-                    player.GetMainWeapons()[0].SetMods(["burn_mod_titan_rocket_launcher"])
                     loadout = true
                 }
             }
