@@ -1,9 +1,6 @@
 global function Backwards_Init
 
 void function Backwards_Init() {
-    PrecacheModel( $"models/titans/buddy/titan_buddy.mdl" )
-	PrecacheModel( $"models/weapons/arms/buddypov.mdl" )
-	PrecacheParticleSystem( $"P_BT_eye_SM" )
 
     #if SERVER
         AddCallback_OnPlayerRespawned( InvertPlayerLoadout )
@@ -32,10 +29,11 @@ bool function InvertedPilotAbilitiesEnabled() {
 array<string> xo16 = ["mp_titanweapon_xo16_vanguard","mp_weapon_alternator_smg","mp_weapon_autopistol","mp_weapon_car","mp_weapon_hemlok","mp_weapon_r97","mp_weapon_rspn101","mp_weapon_rspn101_og","mp_weapon_semipistol","mp_weapon_vinson"]
 array<string> leadwall = ["mp_titanweapon_leadwall","mp_weapon_mastiff","mp_weapon_shotgun","mp_weapon_shotgun_pistol"]
 array<string> meteor = ["mp_titanweapon_meteor","mp_weapon_epg","mp_weapon_mgl","mp_weapon_softball"]
-array<string> particleaccelerator = ["mp_titanweapon_particle_accelerator","mp_weapon_hemlok_smg","mp_weapon_lstar","mp_weapon_pulse_lmg","mp_weapon_smr"]
+array<string> particleaccelerator = ["mp_titanweapon_particle_accelerator","mp_weapon_hemlok_smg","mp_weapon_lstar","mp_weapon_pulse_lmg"]
 array<string> predcannon = ["mp_titanweapon_predator_cannon","mp_weapon_esaw","mp_weapon_lmg" ]
-array<string> sniper = ["mp_titanweapon_sniper","mp_weapon_defender","mp_weapon_doubletake","mp_weapon_rocket_launcher","mp_weapon_sniper"]
-array<string> sticky = ["mp_titanweapon_sticky_40mm","mp_weapon_arc_launcher","mp_weapon_dmr","mp_weapon_g2","mp_weapon_wingman","mp_weapon_wingman_n"]
+array<string> sniper = ["mp_titanweapon_sniper","mp_weapon_defender","mp_weapon_doubletake","mp_weapon_sniper"]
+array<string> sticky = ["mp_titanweapon_sticky_40mm","mp_weapon_dmr","mp_weapon_g2","mp_weapon_wingman_n"]
+array<string> brute = ["mp_titanweapon_rocketeer_rocketstream","mp_weapon_wingman","mp_weapon_arc_launcher","mp_weapon_rocket_launcher","mp_weapon_smr"]
 
 #if SERVER
     void function InvertTitanLoadoutOnLoadout( entity player, TitanLoadoutDef loadout )
@@ -63,7 +61,7 @@ array<string> sticky = ["mp_titanweapon_sticky_40mm","mp_weapon_arc_launcher","m
                         player.TakeOffhandWeapon(i)
                         player.GiveOffhandWeapon( "mp_weapon_frag_grenade", OFFHAND_ORDNANCE )
                         break;
-                    
+
                     case "mp_titanability_laser_trip":
                         player.TakeOffhandWeapon(i)
                         player.GiveOffhandWeapon( "mp_weapon_satchel", OFFHAND_ANTIRODEO )
@@ -79,12 +77,12 @@ array<string> sticky = ["mp_titanweapon_sticky_40mm","mp_weapon_arc_launcher","m
                         player.TakeOffhandWeapon(i)
                         player.GiveOffhandWeapon( "mp_weapon_thermite_grenade", OFFHAND_ORDNANCE )
                         break;
-                    
+
                     case "mp_titanability_slow_trap":
                         player.TakeOffhandWeapon(i)
                         player.GiveOffhandWeapon( "mp_ability_grapple", OFFHAND_ANTIRODEO )
                         break;
-                    
+
                     case "mp_titanweapon_heat_shield":
                         player.TakeOffhandWeapon(i)
                         player.GiveOffhandWeapon( "mp_ability_cloak", OFFHAND_SPECIAL )
@@ -153,7 +151,7 @@ array<string> sticky = ["mp_titanweapon_sticky_40mm","mp_weapon_arc_launcher","m
                         player.TakeOffhandWeapon(i)
                         player.GiveOffhandWeapon( "mp_weapon_grenade_emp", OFFHAND_SPECIAL )
                         break;
-                    
+
                     case "mp_titanability_ammo_swap":
                         player.TakeOffhandWeapon(i)
                         player.GiveOffhandWeapon( "mp_ability_grapple", OFFHAND_ANTIRODEO )
@@ -169,7 +167,7 @@ array<string> sticky = ["mp_titanweapon_sticky_40mm","mp_weapon_arc_launcher","m
                         player.TakeOffhandWeapon(i)
                         player.GiveOffhandWeapon( "mp_ability_holopilot", OFFHAND_ANTIRODEO )
                         break;
-        
+
                     case "mp_titanweapon_salvo_rockets":
                         player.TakeOffhandWeapon(i)
                         player.GiveOffhandWeapon( "mp_ability_heal", OFFHAND_ORDNANCE )
@@ -213,6 +211,10 @@ array<string> sticky = ["mp_titanweapon_sticky_40mm","mp_weapon_arc_launcher","m
                     player.TakeWeaponNow( weapons[0].GetWeaponClassName() )
                     player.GiveWeapon( "mp_weapon_dmr" )
                     break;
+                case "mp_titanweapon_rocketeer_rocketstream":
+                    player.TakeWeaponNow( weapons[0].GetWeaponClassName() )
+                    player.GiveWeapon( "mp_weapon_softball" )
+                    break;
             }
 
             SendHudMessage( player, "Pilot loadout equipped!", -1, 0.4, 255, 255, 255, 255, 0.15, 3.0, 0.5 )
@@ -232,50 +234,57 @@ array<string> sticky = ["mp_titanweapon_sticky_40mm","mp_weapon_arc_launcher","m
             {
                 player.TakeOffhandWeapon(0)
                 player.TakeOffhandWeapon(1)
-                player.GiveOffhandWeapon( "mp_titanweapon_salvo_rockets", OFFHAND_SPECIAL )
-                player.GiveOffhandWeapon( "mp_titanweapon_stun_laser", OFFHAND_ORDNANCE )
+                player.GiveOffhandWeapon( "mp_titanweapon_salvo_rockets", OFFHAND_ORDNANCE )
+                player.GiveOffhandWeapon( "mp_titanweapon_stun_laser", OFFHAND_SPECIAL )
             }
             else if ( leadwall.contains( weapon.GetWeaponClassName() ) )
             {
                 player.TakeOffhandWeapon(0)
                 player.TakeOffhandWeapon(1)
-                player.GiveOffhandWeapon( "mp_titanweapon_arc_wave", OFFHAND_SPECIAL )
-                player.GiveOffhandWeapon( "mp_titanability_basic_block", OFFHAND_ORDNANCE )
+                player.GiveOffhandWeapon( "mp_titanweapon_arc_wave", OFFHAND_ORDNANCE )
+                player.GiveOffhandWeapon( "mp_titanability_phase_dash", OFFHAND_SPECIAL )
             }
             else if ( meteor.contains( weapon.GetWeaponClassName() ) )
             {
                 player.TakeOffhandWeapon(0)
                 player.TakeOffhandWeapon(1)
-                player.GiveOffhandWeapon( "mp_titanweapon_flame_wall", OFFHAND_SPECIAL )
-                player.GiveOffhandWeapon( "mp_titanweapon_heat_shield", OFFHAND_ORDNANCE )
+                player.GiveOffhandWeapon( "mp_titanweapon_flame_wall", OFFHAND_ORDNANCE )
+                player.GiveOffhandWeapon( "mp_titanweapon_heat_shield", OFFHAND_SPECIAL )
             }
             else if ( particleaccelerator.contains( weapon.GetWeaponClassName() ) )
             {
                 player.TakeOffhandWeapon(0)
                 player.TakeOffhandWeapon(1)
-                player.GiveOffhandWeapon( "mp_titanability_laser_trip", OFFHAND_SPECIAL )
-                player.GiveOffhandWeapon( "mp_titanweapon_vortex_shield", OFFHAND_ORDNANCE )
+                player.GiveOffhandWeapon( "mp_titanability_laser_trip", OFFHAND_ORDNANCE )
+                player.GiveOffhandWeapon( "mp_titanweapon_vortex_shield", OFFHAND_SPECIAL )
             }
             else if ( predcannon.contains( weapon.GetWeaponClassName() ) )
             {
                 player.TakeOffhandWeapon(0)
                 player.TakeOffhandWeapon(1)
-                player.GiveOffhandWeapon( "mp_titanability_gun_shield", OFFHAND_SPECIAL )
-                player.GiveOffhandWeapon( "mp_titanweapon_salvo_rockets", OFFHAND_ORDNANCE )
+                player.GiveOffhandWeapon( "mp_titanability_gun_shield", OFFHAND_ORDNANCE )
+                player.GiveOffhandWeapon( "mp_titanweapon_salvo_rockets", OFFHAND_SPECIAL )
             }
             else if ( sniper.contains( weapon.GetWeaponClassName() ) )
             {
                 player.TakeOffhandWeapon(0)
                 player.TakeOffhandWeapon(1)
-                player.GiveOffhandWeapon( "mp_titanweapon_dumbfire_rockets", OFFHAND_SPECIAL )
-                player.GiveOffhandWeapon( "mp_titanability_hover", OFFHAND_ORDNANCE )
+                player.GiveOffhandWeapon( "mp_titanweapon_dumbfire_rockets", OFFHAND_ORDNANCE )
+                player.GiveOffhandWeapon( "mp_titanability_hover", OFFHAND_SPECIAL )
             }
             else if ( sticky.contains (weapon.GetWeaponClassName() ) )
             {
                 player.TakeOffhandWeapon(0)
                 player.TakeOffhandWeapon(1)
-                player.GiveOffhandWeapon( "mp_titanweapon_salvo_rockets", OFFHAND_SPECIAL )
-                player.GiveOffhandWeapon( "mp_titanability_particle_wall", OFFHAND_ORDNANCE )
+                player.GiveOffhandWeapon( "mp_titanweapon_salvo_rockets", OFFHAND_ORDNANCE )
+                player.GiveOffhandWeapon( "mp_titanability_sonar_pulse", OFFHAND_SPECIAL )
+            }
+            else if ( brute.contains (weapon.GetWeaponClassName() ) )
+            {
+                player.TakeOffhandWeapon(0)
+                player.TakeOffhandWeapon(1)
+                player.GiveOffhandWeapon( "mp_titanability_hover", OFFHAND_ORDNANCE )
+                player.GiveOffhandWeapon( "mp_titanweapon_vortex_shield", OFFHAND_SPECIAL )
             }
         }
 
@@ -302,7 +311,7 @@ array<string> sticky = ["mp_titanweapon_sticky_40mm","mp_weapon_arc_launcher","m
                 if ( xo16.contains( weapon.GetWeaponClassName() ) && !loadout )
                 {
                     player.TakeWeaponNow( weapon.GetWeaponClassName() )
-                    player.GiveWeapon( "mp_titanweapon_xo16_vanguard" )
+                    player.GiveWeapon( "mp_titanweapon_xo16_shorty" )
                     loadout = true
                 }
                 else if ( leadwall.contains( weapon.GetWeaponClassName() ) && !loadout )
@@ -322,7 +331,7 @@ array<string> sticky = ["mp_titanweapon_sticky_40mm","mp_weapon_arc_launcher","m
                 else if ( particleaccelerator.contains( weapon.GetWeaponClassName() ) && !loadout )
                 {
                     player.TakeWeaponNow( weapon.GetWeaponClassName() )
-                    player.GiveWeapon( "mp_titanweapon_particle_accelerator" )
+                    player.GiveWeapon( "mp_titanweapon_particle_accelerator", ["burn_mod_titan_particle_accelerator"])
                     loadout = true
                 }
                 else if ( predcannon.contains( weapon.GetWeaponClassName() ) && !loadout )
@@ -334,13 +343,19 @@ array<string> sticky = ["mp_titanweapon_sticky_40mm","mp_weapon_arc_launcher","m
                 else if ( sniper.contains( weapon.GetWeaponClassName() ) && !loadout )
                 {
                     player.TakeWeaponNow( weapon.GetWeaponClassName() )
-                    player.GiveWeapon( "mp_titanweapon_sniper" )
+                    player.GiveWeapon( "mp_titanweapon_sniper" , ["instant_shot"])
                     loadout = true
                 }
                 else if ( sticky.contains ( weapon.GetWeaponClassName() ) && !loadout )
                 {
                     player.TakeWeaponNow( weapon.GetWeaponClassName() )
                     player.GiveWeapon( "mp_titanweapon_sticky_40mm" )
+                    loadout = true
+                }
+                else if ( brute.contains ( weapon.GetWeaponClassName() ) && !loadout )
+                {
+                    player.TakeWeaponNow( weapon.GetWeaponClassName() )
+                    player.GiveWeapon( "mp_titanweapon_rocketeer_rocketstream" )
                     loadout = true
                 }
             }
