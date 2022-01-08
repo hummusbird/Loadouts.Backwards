@@ -275,7 +275,7 @@ array<string> sticky = ["mp_titanweapon_sticky_40mm","mp_weapon_arc_launcher","m
                 player.TakeOffhandWeapon(0)
                 player.TakeOffhandWeapon(1)
                 player.GiveOffhandWeapon( "mp_titanability_hover", OFFHAND_ORDNANCE )
-                player.GiveOffhandWeapon( "mp_titanweapon_vortex_shield", OFFHAND_SPECIAL )
+                player.GiveOffhandWeapon( "mp_titanweapon_vortex_shield_ion", OFFHAND_SPECIAL )
             }
         }
 
@@ -322,8 +322,7 @@ array<string> sticky = ["mp_titanweapon_sticky_40mm","mp_weapon_arc_launcher","m
                 else if ( particleaccelerator.contains( weapon.GetWeaponClassName() ) && !loadout )
                 {
                     player.TakeWeaponNow( weapon.GetWeaponClassName() )
-                    player.GiveWeapon( "mp_titanweapon_particle_accelerator" )
-                    player.GetMainWeapons()[0].SetMods(["burn_mod_titan_particle_accelerator"])
+                    player.GiveWeapon( "mp_titanweapon_particle_accelerator", ["burn_mod_titan_particle_accelerator"])
                     loadout = true
                 }
                 else if ( predcannon.contains( weapon.GetWeaponClassName() ) && !loadout )
@@ -335,8 +334,7 @@ array<string> sticky = ["mp_titanweapon_sticky_40mm","mp_weapon_arc_launcher","m
                 else if ( sniper.contains( weapon.GetWeaponClassName() ) && !loadout )
                 {
                     player.TakeWeaponNow( weapon.GetWeaponClassName() )
-                    player.GiveWeapon( "mp_titanweapon_sniper" )
-                    player.GetMainWeapons()[0].SetMods(["instant_shot"])
+                    player.GiveWeapon( "mp_titanweapon_sniper" , ["instant_shot"])
                     loadout = true
                 }
                 else if ( sticky.contains ( weapon.GetWeaponClassName() ) && !loadout )
