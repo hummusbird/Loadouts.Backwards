@@ -68,9 +68,10 @@ mp_weapon_dmr
 mp_weapon_g2
 mp_weapon_wingman_n
 
-## rocketeer
+### rocketeer
 mp_weapon_wingman
 mp_weapon_rocket_launcher
 mp_weapon_smr 
+
 
 The opposite is true for titans
