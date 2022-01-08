@@ -302,7 +302,7 @@ array<string> sticky = ["mp_titanweapon_sticky_40mm","mp_weapon_arc_launcher","m
                 if ( xo16.contains( weapon.GetWeaponClassName() ) && !loadout )
                 {
                     player.TakeWeaponNow( weapon.GetWeaponClassName() )
-                    player.GiveWeapon( "mp_titanweapon_xo16_vanguard" )
+                    player.GiveWeapon( "mp_titanweapon_xo16_shorty" )
                     loadout = true
                 }
                 else if ( leadwall.contains( weapon.GetWeaponClassName() ) && !loadout )
