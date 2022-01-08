@@ -46,7 +46,6 @@ mp_titanweapon_particle_accelerator
 mp_weapon_hemlok_smg
 mp_weapon_lstar
 mp_weapon_pulse_lmg
-mp_weapon_smr
 
 ### predator cannon
 
@@ -59,7 +58,6 @@ mp_weapon_lmg
 mp_titanweapon_sniper
 mp_weapon_defender
 mp_weapon_doubletake
-mp_weapon_rocket_launcher
 mp_weapon_sniper
 
 ### 40mm sticky
@@ -68,7 +66,11 @@ mp_titanweapon_sticky_40mm
 mp_weapon_arc_launcher
 mp_weapon_dmr
 mp_weapon_g2
-mp_weapon_wingman
 mp_weapon_wingman_n
+
+## rocketeer
+mp_weapon_wingman
+mp_weapon_rocket_launcher
+mp_weapon_smr 
 
 The opposite is true for titans
