@@ -4,12 +4,14 @@ Mod for Titanfall2's Northstar
 
 basically, pilot with a railgun.
 
-There are four convars to set.
+There are four playlistvars to set.
 
 - `inverted_titans 1` gives titans pilot guns and tacticals
 - `inverted_pilot_loadouts 1` gives pilots titan guns
 - `inverted_pilot_abilities 1` gives pilots titan abilities
 - `big_shotgun_snipers 1` gives all pilots the Leadwall and Railgun, for a big shotgun-sniper gamemode
+
+example: `+setplaylistvaroverrides "inverted_titans 1 big_shotgun_snipers 1`
 
 Here are how guns are distributed.
 
